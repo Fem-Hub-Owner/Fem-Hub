@@ -56,6 +56,13 @@ body {
     border-radius: 5px;
 }
 
+.nav-menu a[href="login.html"] {
+    background: linear-gradient(90deg, #ff69b4, #d81b60) !important;
+    color: white !important;
+    padding: 8px 15px !important;
+    border-radius: 5px !important;
+}
+
 .nav-menu a:hover,
 .nav-menu a.active {
     color: #ff69b4;
