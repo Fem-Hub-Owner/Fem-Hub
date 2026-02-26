@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Fem Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #ff69b4;
+        }
+        .admin-header h1 {
+            color: #6b3fa0;
+        }
+        .logout-btn {
+            padding: 10px 20px;
+            background: #d81b60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .logout-btn:hover {
+            background: #ff1493;
+            transform: scale(1.05);
+        }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .admin-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(107, 63, 160, 0.1);
+            border-left: 5px solid #ff69b4;
+        }
+        .admin-card h3 {
+            color: #d81b60;
+            margin-bottom: 1rem;
+        }
+        .admin-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .admin-action-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(90deg, #ff69b4, #d81b60);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+        .admin-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2);
+        }
+        .admin-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(107, 63, 160, 0.1);
+        }
+        .admin-section h2 {
+            color: #6b3fa0;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #ff69b4;
+            padding-bottom: 0.5rem;
+        }
+        .user-item {
+            background: #f5f5f5;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-item strong {
+            color: #6b3fa0;
+        }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .status-active {
+            background: #90EE90;
+            color: #2d5016;
+        }
+        .status-banned {
+            background: #FFB6C6;
+            color: #8b0052;
+        }
+        .status-warned {
+            background: #FFD700;
+            color: #8B7500;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .action-buttons button {
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .ban-btn {
+            background: #d81b60;
+            color: white;
+        }
+        .ban-btn:hover {
+            background: #8b0052;
+        }
+        .warn-btn {
+            background: #FFD700;
+            color: #333;
+        }
+        .warn-btn:hover {
+            background: #FFA500;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-box {
+            background: linear-gradient(135deg, #ff69b4, #d81b60);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-box h4 {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+        .stat-box .number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">✨ Fem Hub ✨</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="admin.html" class="active">Admin Panel</a></li>
+                <li><a href="#" onclick="logout(); return false;">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <div>
+                <h1>🔐 Admin Control Panel</h1>
+                <p style="color: #666;">Logged in as: <strong id="userEmail"></strong></p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <h4>Total Users</h4>
+                <div class="number" id="totalUsers">42</div>
+            </div>
+            <div class="stat-box">
+                <h4>Active Today</h4>
+                <div class="number" id="activeUsers">18</div>
+            </div>
+            <div class="stat-box">
+                <h4>Posts</h4>
+                <div class="number" id="totalPosts">156</div>
+            </div>
+            <div class="stat-box">
+                <h4>Reports</h4>
+                <div class="number" id="pendingReports">3</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="admin-grid">
+            <div class="admin-card">
+                <h3>👥 User Management</h3>
+                <p>Ban, warn, or review community members</p>
+                <button class="admin-action-btn" onclick="showSection('users')">Manage Users</button>
+            </div>
+            <div class="admin-card">
+                <h3>🚨 Reports</h3>
+                <p>Review and handle user reports</p>
+                <button class="admin-action-btn" onclick="showSection('reports')">View Reports</button>
+            </div>
+            <div class="admin-card">
+                <h3>📝 Content Moderation</h3>
+                <p>Review flagged posts and comments</p>
+                <button class="admin-action-btn" onclick="showSection('content')">Moderate Content</button>
+            </div>
+            <div class="admin-card">
+                <h3>⚙️ Settings</h3>
+                <p>Configure community rules and settings</p>
+                <button class="admin-action-btn" onclick="showSection('settings')">Community Settings</button>
+            </div>
+            <div class="admin-card">
+                <h3>📊 Analytics</h3>
+                <p>View community stats and activity</p>
+                <button class="admin-action-btn" onclick="showSection('analytics')">View Analytics</button>
+            </div>
+            <div class="admin-card">
+                <h3>📢 Announcements</h3>
+                <p>Send messages to the community</p>
+                <button class="admin-action-btn" onclick="showSection('announce')">Post Announcement</button>
+            </div>
+        </div>
+
+        <!-- Users Section -->
+        <div id="usersSection" class="admin-section" style="display: none;">
+            <h2>👥 User Management</h2>
+            <div id="usersList"></div>
+        </div>
+
+        <!-- Reports Section -->
+        <div id="reportsSection" class="admin-section" style="display: none;">
+            <h2>🚨 User Reports</h2>
+            <div id="reportsList"></div>
+        </div>
+
+        <!-- Content Section -->
+        <div id="contentSection" class="admin-section" style="display: none;">
+            <h2>📝 Content Moderation</h2>
+            <div id="contentList"></div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settingsSection" class="admin-section" style="display: none;">
+            <h2>⚙️ Community Settings</h2>
+            <div style="padding: 1rem; background: #f5f5f5; border-radius: 5px;">
+                <label style="display: block; margin: 1rem 0;">
+                    <input type="checkbox" checked> Allow signups
+                </label>
+                <label style="display: block; margin: 1rem 0;">
+                    <input type="checkbox" checked> Allow photo uploads
+                </label>
+                <label style="display: block; margin: 1rem 0;">
+                    <input type="checkbox" checked> Allow blog posts
+                </label>
+                <label style="display: block; margin: 1rem 0;">
+                    <input type="checkbox" checked> Allow meetup planning
+                </label>
+                <button class="admin-action-btn" style="margin-top: 1rem;">Save Settings</button>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div id="analyticsSection" class="admin-section" style="display: none;">
+            <h2>📊 Community Analytics</h2>
+            <div style="padding: 1rem;">
+                <p><strong>Weekly Active Users:</strong> 28</p>
+                <p><strong>Total Posts:</strong> 156</p>
+                <p><strong>Total Comments:</strong> 432</p>
+                <p><strong>Most Active Day:</strong> Friday</p>
+                <p><strong>Average Session Length:</strong> 18 minutes</p>
+            </div>
+        </div>
+
+        <!-- Announcements Section -->
+        <div id="announceSection" class="admin-section" style="display: none;">
+            <h2>📢 Post Announcement</h2>
+            <form style="display: flex; flex-direction: column; gap: 1rem;">
+                <input type="text" placeholder="Announcement Title" style="padding: 10px; border: 2px solid #ff69b4; border-radius: 5px; font-size: 1rem;">
+                <textarea placeholder="Announcement Message" rows="5" style="padding: 10px; border: 2px solid #ff69b4; border-radius: 5px; font-size: 1rem; font-family: inherit;"></textarea>
+                <button type="button" class="admin-action-btn">Post to Community</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Fem Hub - Admin Panel 💜🎀</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3cIEPhSi9Ba2HU8A7U0KGDnx1b6fkC8k",
+            authDomain: "fem-hub-461ab.firebaseapp.com",
+            projectId: "fem-hub-461ab",
+            storageBucket: "fem-hub-461ab.firebasestorage.app",
+            messagingSenderId: "895912349918",
+            appId: "1:895912349918:web:f7b5f0388d8f86c2ee724f",
+            measurementId: "G-ZHT06VMRNN"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Check if user is admin
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+            
+            if (user.email !== "sebastian.sattler2234@gmail.com") {
+                alert("Access Denied: Admin only!");
+                window.location.href = "index.html";
+                return;
+            }
+            
+            document.getElementById('userEmail').textContent = user.email;
+            loadMockData();
+        });
+
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = "index.html";
+            });
+        }
+
+        function showSection(section) {
+            // Hide all sections
+            document.getElementById('usersSection').style.display = 'none';
+            document.getElementById('reportsSection').style.display = 'none';
+            document.getElementById('contentSection').style.display = 'none';
+            document.getElementById('settingsSection').style.display = 'none';
+            document.getElementById('analyticsSection').style.display = 'none';
+            document.getElementById('announceSection').style.display = 'none';
+
+            // Show selected section
+            if (section === 'users') document.getElementById('usersSection').style.display = 'block';
+            if (section === 'reports') document.getElementById('reportsSection').style.display = 'block';
+            if (section === 'content') document.getElementById('contentSection').style.display = 'block';
+            if (section === 'settings') document.getElementById('settingsSection').style.display = 'block';
+            if (section === 'analytics') document.getElementById('analyticsSection').style.display = 'block';
+            if (section === 'announce') document.getElementById('announceSection').style.display = 'block';
+        }
+
+        function loadMockData() {
+            // Sample users
+            const usersList = `
+                <div class="user-item">
+                    <div><strong>Alex (@alex_femme)</strong><br><small>Joined: Jan 15, 2025</small></div>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <span class="status-badge status-active">Active</span>
+                        <div class="action-buttons">
+                            <button class="warn-btn" onclick="alert('Warned: Alex')">Warn</button>
+                            <button class="ban-btn" onclick="alert('Banned: Alex')">Ban</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-item">
+                    <div><strong>Jordan (@jordan_style)</strong><br><small>Joined: Dec 20, 2024</small></div>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <span class="status-badge status-active">Active</span>
+                        <div class="action-buttons">
+                            <button class="warn-btn" onclick="alert('Warned: Jordan')">Warn</button>
+                            <button class="ban-btn" onclick="alert('Banned: Jordan')">Ban</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-item">
+                    <div><strong>Casey (@casey_vibes)</strong><br><small>Joined: Nov 10, 2024</small></div>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <span class="status-badge status-warned">Warned</span>
+                        <div class="action-buttons">
+                            <button class="warn-btn" onclick="alert('Warned: Casey')">Warn Again</button>
+                            <button class="ban-btn" onclick="alert('Banned: Casey')">Ban</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-item">
+                    <div><strong>Morgan (@morgan_fierce)</strong><br><small>Joined: Oct 5, 2024</small></div>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <span class="status-badge status-banned">Banned</span>
+                        <div class="action-buttons">
+                            <button class="warn-btn" onclick="alert('Unban: Morgan')" style="background: #90EE90; color: #2d5016;">Unban</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('usersList').innerHTML = usersList;
+
+            // Sample reports
+            const reportsList = `
+                <div class="user-item">
+                    <div>
+                        <strong>Report ID: #001</strong><br>
+                        <small>Reported by: @alex_femme</small><br>
+                        <small>Reason: Inappropriate comment</small><br>
+                        <small>Status: Pending</small>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="warn-btn" onclick="alert('Warned user for report #001')">Warn User</button>
+                        <button class="ban-btn" onclick="alert('Banned user for report #001')">Ban User</button>
+                    </div>
+                </div>
+                <div class="user-item">
+                    <div>
+                        <strong>Report ID: #002</strong><br>
+                        <small>Reported by: @jordan_style</small><br>
+                        <small>Reason: Harassment</small><br>
+                        <small>Status: Pending</small>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="warn-btn" onclick="alert('Warned user for report #002')">Warn User</button>
+                        <button class="ban-btn" onclick="alert('Banned user for report #002')">Ban User</button>
+                    </div>
+                </div>
+                <div class="user-item">
+                    <div>
+                        <strong>Report ID: #003</strong><br>
+                        <small>Reported by: @casey_vibes</small><br>
+                        <small>Reason: Spam</small><br>
+                        <small>Status: Resolved</small>
+                    </div>
+                    <div class="action-buttons">
+                        <button style="background: #90EE90; color: #2d5016; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;">Resolved</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('reportsList').innerHTML = reportsList;
+
+            // Sample content
+            const contentList = `
+                <div class="user-item">
+                    <div>
+                        <strong>Post by @alex_femme</strong><br>
+                        <small>"Check out my new outfit! 💖"</small><br>
+                        <small>Flagged: Inappropriate language</small>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="warn-btn" onclick="alert('Removed post and warned user')">Remove & Warn</button>
+                        <button style="background: #90EE90; color: #2d5016; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;" onclick="alert('Approved post')">Approve</button>
+                    </div>
+                </div>
+                <div class="user-item">
+                    <div>
+                        <strong>Comment by @jordan_style</strong><br>
+                        <small>"This is amazing!"</small><br>
+                        <small>Flagged: Spam report</small>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="warn-btn" onclick="alert('Removed comment and warned user')">Remove & Warn</button>
+                        <button style="background: #90EE90; color: #2d5016; border: none; border-radius: 3px; padding: 5px 10px; cursor: pointer;" onclick="alert('Approved comment')">Approve</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('contentList').innerHTML = contentList;
+        }
+    </script>
+</body>
+</html>
