@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Fem Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #ff69b4;
+        }
+        .dashboard-header h1 {
+            color: #6b3fa0;
+        }
+        .user-info {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .logout-btn {
+            padding: 10px 20px;
+            background: #d81b60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .logout-btn:hover {
+            background: #ff1493;
+            transform: scale(1.05);
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .dashboard-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(107, 63, 160, 0.1);
+            border-left: 5px solid #ff69b4;
+            transition: all 0.3s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(107, 63, 160, 0.2);
+        }
+        .dashboard-card h3 {
+            color: #d81b60;
+            margin-bottom: 1rem;
+        }
+        .dashboard-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .dashboard-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(90deg, #ff69b4, #d81b60);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .dashboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2);
+        }
+        .activity-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(107, 63, 160, 0.1);
+            margin-bottom: 2rem;
+        }
+        .activity-item {
+            padding: 1rem;
+            border-left: 4px solid #ff69b4;
+            margin: 1rem 0;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        .activity-item strong {
+            color: #6b3fa0;
+        }
+        .notification {
+            background: linear-gradient(135deg, #ff69b4, #d81b60);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">✨ Fem Hub ✨</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="#" onclick="logout(); return false;">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div>
+                <h1>Welcome Back, <span id="userName">Friend</span>! 💜</h1>
+                <p style="color: #666;">Logged in as: <strong id="userEmail"></strong></p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Notifications -->
+        <div class="notification">
+            <h3 style="margin: 0 0 0.5rem 0;">📢 Welcome to Fem Hub!</h3>
+            <p style="margin: 0;">Check out the community, share your style, and connect with other femboys!</p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h3>📸 Upload Photo</h3>
+                <p>Share your latest look, outfit, or selfie with the community!</p>
+                <button class="dashboard-btn" onclick="alert('Photo upload coming soon!')">Upload Now</button>
+            </div>
+            <div class="dashboard-card">
+                <h3>✍️ Write a Post</h3>
+                <p>Share your story, tips, or experiences with the community.</p>
+                <button class="dashboard-btn" onclick="alert('Blog post feature coming soon!')">Write Post</button>
+            </div>
+            <div class="dashboard-card">
+                <h3>🤝 Join Meetup</h3>
+                <p>Find and join local meetups in your area.</p>
+                <a href="services.html" class="dashboard-btn" style="text-decoration: none; display: block; padding: 10px;">Find Meetups</a>
+            </div>
+            <div class="dashboard-card">
+                <h3>💬 Forum</h3>
+                <p>Chat with other members and join discussions.</p>
+                <button class="dashboard-btn" onclick="alert('Forum coming soon!')">Go to Forum</button>
+            </div>
+            <div class="dashboard-card">
+                <h3>📚 Browse Blog</h3>
+                <p>Read style guides, stories, and tips from the community.</p>
+                <a href="blog.html" class="dashboard-btn" style="text-decoration: none; display: block; padding: 10px;">Read Blog</a>
+            </div>
+            <div class="dashboard-card">
+                <h3>👥 My Profile</h3>
+                <p>View and edit your profile information.</p>
+                <button class="dashboard-btn" onclick="alert('Profile editor coming soon!')">Edit Profile</button>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="activity-section">
+            <h2 style="color: #6b3fa0; margin-bottom: 1.5rem;">🔥 Recent Community Activity</h2>
+            
+            <div class="activity-item">
+                <strong>New post by @alex_femme:</strong> "Spring Fashion Tips!" 
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #999;">2 hours ago • 24 likes</p>
+            </div>
+
+            <div class="activity-item">
+                <strong>New meetup in NYC:</strong> "Fashion Walk & Coffee Hangout" 
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #999;">5 hours ago • 12 interested</p>
+            </div>
+
+            <div class="activity-item">
+                <strong>@jordan_style shared photos:</strong> "My new outfit!" 
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #999;">8 hours ago • 45 likes</p>
+            </div>
+
+            <div class="activity-item">
+                <strong>New blog post:</strong> "Beginner's Guide to Makeup" 
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #999;">12 hours ago • 67 comments</p>
+            </div>
+
+            <div class="activity-item">
+                <strong>@morgan_fierce joined a meetup:</strong> "LA Beach Day" 
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #999;">1 day ago • 8 attending</p>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="activity-section">
+            <h2 style="color: #6b3fa0; margin-bottom: 1.5rem;">💡 Recommended for You</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div style="padding: 1rem; background: #f5f5f5; border-radius: 5px;">
+                    <h4 style="color: #d81b60; margin: 0 0 0.5rem 0;">Fashion & Style Group</h4>
+                    <p style="font-size: 0.9rem; margin: 0 0 1rem 0;">Join other femboys who love fashion!</p>
+                    <button class="dashboard-btn" style="padding: 8px;">Join Group</button>
+                </div>
+                <div style="padding: 1rem; background: #f5f5f5; border-radius: 5px;">
+                    <h4 style="color: #d81b60; margin: 0 0 0.5rem 0;">Makeup Tutorials</h4>
+                    <p style="font-size: 0.9rem; margin: 0 0 1rem 0;">Learn makeup tips from community experts!</p>
+                    <button class="dashboard-btn" style="padding: 8px;">Browse Videos</button>
+                </div>
+                <div style="padding: 1rem; background: #f5f5f5; border-radius: 5px;">
+                    <h4 style="color: #d81b60; margin: 0 0 0.5rem 0;">Support Network</h4>
+                    <p style="font-size: 0.9rem; margin: 0 0 1rem 0;">Connect with supportive community members.</p>
+                    <button class="dashboard-btn" style="padding: 8px;">Join Group</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Fem Hub - A Safe Space for Femboys Everywhere 💜🎀</p>
+        <p>Made with love and creativity ✨</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3cIEPhSi9Ba2HU8A7U0KGDnx1b6fkC8k",
+            authDomain: "fem-hub-461ab.firebaseapp.com",
+            projectId: "fem-hub-461ab",
+            storageBucket: "fem-hub-461ab.firebasestorage.app",
+            messagingSenderId: "895912349918",
+            appId: "1:395912349918:web:f7b5f0388d8f86c2ee724f",
+            measurementId: "G-ZHT06VMRNN"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Check if user is logged in
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+            
+            const email = user.email;
+            document.getElementById('userEmail').textContent = email;
+            
+            // Get name from email (part before @)
+            const name = email.split('@')[0];
+            document.getElementById('userName').textContent = name.charAt(0).toUpperCase() + name.slice(1);
+        });
+
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = "index.html";
+            });
+        }
+    </script>
+</body>
+</html>
